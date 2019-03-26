@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../static/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+    <form method="post">
+        <input type="text" name="username" class="username">账号<br/>
+        <input type="password" name="password" class="password">密码
+        <input type="submit" class="submit" value="提交">登录
+
+        
+    </form>
+</body>
+<script>
+$(function(){
+    $(".submit").click(function(){
+        var username = $(".username").val()
+        var password = $(".password").val()
+        
+        $.ajax({
+        url:'/login',
+        type:"post",
+        dataType:"json",
+        data:{'username':username,'password':password},
+        success:function(res){
+            if(res.code == 200){
+                alert(res.message)
+                //window.location.reload()本页面重新加载
+                window.location.href="/"
+            }else{
+                alert(res.message)
+                window.location.href='/login'
+            }
+        }
+    })
+    })
+})
+        </script>
+        
+</html>

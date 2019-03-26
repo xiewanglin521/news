@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../../static/css/jquery.pagination.css">
+    <script type="text/javascript" src="../../static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery.pagination.min.js"></script>
+    <title>详情页</title>
+</head>
+<body>
+    <div align='center'><h1>详情页</h1></div>
+        {% for i in data.goods %}
+        <tr>
+            <td><a href="/content?id={{i.id}}"><img src={{i.image_url}} width=100px></a></td><br/>
+            <td><a href="/content?id={{i.id}}">名称:{{i.name}}</a></td><br/>
+            <td>价格：${{i.price}}</td><br/>
+            <td>数量：{{i.number}}</td><br/>
+            <td>描述：{{i.content}}</td>
+            <div><a href="javascript:buy({{i.id}})">加入购入车</a></div>
+
+
+        </tr>
+        {% endfor %}
+        <div>
+            <a href="/Cartlist">购物车</a>
+        </div>
+        <textarea placeholder="请发表您的评论" class="content" onclick="javascript:islogin({{data.user_id}})"></textarea>
+        <button type="button" onclick="javascript:comm({{data.goods[0].id}})">评论</button>
+        <h3>评论展示区：</h3>
+        <div id="comment">
+        {% for i in data.cart %}
+        <li>{{i.user.name}}</li>
+        <li>{{i.content}}</li>
+        <li>{{i.create_time}}</li>
+        {% endfor %}
+        </div>
+</body>
+<script>
+    function buy(id){
+        var id=id
+        $.ajax({
+            url:'/addcart',
+            dataType:'json',
+            data:{'id':id},
+            type:'get',
+            success:function(res){
+                console.log(res)
+                if (res.code==200){
+                    alert(res.mes)
+                    location.reload();
+                }else{
+                    alert(res.mes)
+                    window.location.href='/login'
+                }
+            
+            }
+
+        })
+    }
+    function comm(good_id){
+        var content = $('.content').val()
+        $.ajax({
+            url:'/comm',
+            type:'post',
+            dataType:'json',
+            data:{'content':content,'good_id':good_id},
+            success:function(res){
+                console.log(res)
+                if(res.code ==200){
+                    window.location.reload();
+                }
+            }
+        })
+    }
+    function islogin(userid){
+        if(userid==0){
+            window.location.href='/login'
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车</title>
+</head>
+<body>
+    <div align='center'><h1>购物车</h1></div>
+    <table border="1" align='center'>
+        <tr>
+            <td>ID</td>
+            <td>名称</td>
+            <td>价格</td>
+            <td>库存</td>
+            <td>总价</td>
+        </tr>
+    {% for i in cart %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.price}}</td>
+            <td>{{i.number}}</td>
+            <td>{{i.number*i.price}}</td>
+        </tr>
+    {% endfor %}
+        <tr><td colspan="5">总计:{{sum}}</td></tr>
+    </table>
+</body>
+</html>
